@@ -1,4 +1,4 @@
-int dir = 0;
+int dir = 1;
 long countStep = 0;
 boolean d = true;
 
@@ -23,8 +23,14 @@ void setDir(){
 void movSlide(long steps){
   myStepper.step(dir*steps);
   countStep=countStep+(dir*steps);
+  freePaP();
 }
 long getCountStep(){
   Serial.println (countStep);
 }
-
+void freePaP(){
+    digitalWrite(8,LOW);
+    digitalWrite(9,LOW);
+    digitalWrite(10,LOW);
+    digitalWrite(11,LOW);
+  }
