@@ -11,6 +11,8 @@ void DriverSlide(int p,long v){
     case 102:
       movSlide(v);
       break;
+    case 103:
+      getCountStep();
     default:
       break;
   }

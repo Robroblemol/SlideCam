@@ -25,6 +25,6 @@ void movSlide(long steps){
   countStep=countStep+(dir*steps);
 }
 long getCountStep(){
-  return countStep;
+  Serial.println (countStep);
 }
 
