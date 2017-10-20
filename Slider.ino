@@ -21,9 +21,12 @@ void setDir(){
     
 }
 void movSlide(long steps){
-  myStepper.step(dir*steps);
-  countStep=countStep+(dir*steps);
-  freePaP();
+ long s=0;
+  while(init_f ==false && final_f == false && s<=steps){
+   myStepper.step(dir*1);
+   countStep=countStep+(dir*steps); 
+  }
+  freePaP(); 
 }
 long getCountStep(){
   Serial.println (countStep);

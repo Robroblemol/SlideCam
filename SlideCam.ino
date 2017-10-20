@@ -47,7 +47,7 @@ void loop() {
    }
    
    if(final_f){
-    Serial.println("END");
+    Serial.println("End");
     final_f=false;
    }
 }
@@ -55,11 +55,9 @@ void loop() {
 void isr(){
   if(digitalRead(initSw)){
     init_f = true;
-   //detachInterrupt(digitalPinToInterrupt(initSw));
   }
   if(digitalRead(finalSw)){
     final_f = true;
-    //detachInterrupt(digitalPinToInterrupt(finalSw));
   }
   
 }
