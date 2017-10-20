@@ -1,5 +1,7 @@
 #include <Stepper.h>
 const int stepsPerRevolution = 200;  // change this to fit the number of steps per revolution
+const byte initSw = 2;
+const byte finalSw =3;
 // for your motor
 #define lengthComand 8 //defino tamaño de los comando a recibir
 
@@ -8,7 +10,14 @@ Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
 
 char arrayComand [lengthComand];
 int p=0;
+volatile boolean init_f = false;
+volatile boolean final_f = false;
+
 void setup() {
+  pinMode(initSw,INPUT);// set initial position sw
+  pinMode(finalSw,INPUT);//set final position sw
+  attachInterrupt(digitalPinToInterrupt(initSw),isr,FALLING);
+  attachInterrupt(digitalPinToInterrupt(finalSw),isr,FALLING);
   // set the speed at 60 rpm:
   myStepper.setSpeed(25);
   // initialize the serial port:
@@ -32,5 +41,26 @@ void loop() {
     p=0;
       memset(arrayComand, 0,sizeof(arrayComand));
    }
-
+   if(init_f){
+    Serial.println("Home");
+    init_f=false;
+   }
+   
+   if(final_f){
+    Serial.println("END");
+    final_f=false;
+   }
 }
+
+void isr(){
+  if(digitalRead(initSw)){
+    init_f = true;
+   //detachInterrupt(digitalPinToInterrupt(initSw));
+  }
+  if(digitalRead(finalSw)){
+    final_f = true;
+    //detachInterrupt(digitalPinToInterrupt(finalSw));
+  }
+  
+}
+
