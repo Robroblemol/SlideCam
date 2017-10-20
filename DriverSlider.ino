@@ -17,6 +17,9 @@ void DriverSlide(int p,long v){
     case 104:
       calibrate();
       break;
+    case 105:
+      goHome();
+      break;
     default:
       break;
   }

@@ -40,10 +40,21 @@ void freePaP(){
     digitalWrite(10,LOW);
     digitalWrite(11,LOW);
   }
+void goHome(){
+  if(digitalRead(initSw)){
+    dir=-1; 
+    while(init_f == false){
+      movSlide(100000);
+    } 
+    countStep=0;
+  }
+   
+}
 void calibrate(){
     setRPM(100);
     while(init_f == false && final_f == false){
-      movSlide(1000);
+      movSlide(100000);
     }
     maxStep=countStep;
   }
+  
