@@ -1,6 +1,8 @@
 int dir = 1;
 long countStep = 0;
+long maxStep = 0;
 boolean d = true;
+long rpm = 0;
 
 void setRPM(long r){
   myStepper.setSpeed(r); 
@@ -37,4 +39,11 @@ void freePaP(){
     digitalWrite(9,LOW);
     digitalWrite(10,LOW);
     digitalWrite(11,LOW);
+  }
+void calibrate(){
+    setRPM(100);
+    while(init_f == false && final_f == false){
+      movSlide(1000);
+    }
+    maxStep=countStep;
   }

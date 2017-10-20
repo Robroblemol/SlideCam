@@ -13,6 +13,10 @@ void DriverSlide(int p,long v){
       break;
     case 103:
       getCountStep();
+      break;
+    case 104:
+      calibrate();
+      break;
     default:
       break;
   }
