@@ -24,7 +24,8 @@ void movSlide(long steps){
  long s=0;
   while(init_f ==false && final_f == false && s<=steps){
    myStepper.step(dir*1);
-   countStep=countStep+(dir*steps); 
+   countStep=countStep+(dir*1);
+   s++; 
   }
   freePaP(); 
 }
