@@ -16,8 +16,8 @@ volatile boolean final_f = false;
 void setup() {
   pinMode(initSw,INPUT);// set initial position sw
   pinMode(finalSw,INPUT);//set final position sw
-  attachInterrupt(digitalPinToInterrupt(initSw),isr,FALLING);
-  attachInterrupt(digitalPinToInterrupt(finalSw),isr,FALLING);
+  attachInterrupt(digitalPinToInterrupt(initSw),swInit,FALLING);
+  attachInterrupt(digitalPinToInterrupt(finalSw),swFinal,FALLING);
   // set the speed at 60 rpm:
   myStepper.setSpeed(25);
   // initialize the serial port:
@@ -52,13 +52,10 @@ void loop() {
    }
 }
 
-void isr(){
-  if(digitalRead(initSw)){
+void swInit(){
     init_f = true;
   }
-  if(digitalRead(finalSw)){
+void swFinal(){
     final_f = true;
   }
-  
-}
 
