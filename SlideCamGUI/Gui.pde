@@ -1,6 +1,6 @@
 import g4p_controls.*;//importamos libreria
 
-GLabel lbTipeVehicule;//objeto tipo label
+GLabel lbTipeVehicule,lbStep,lbRPM;//objeto tipo label
 GButton bStart;
 GToggleGroup togG1Options;
 GCheckbox cbx;
@@ -16,18 +16,24 @@ void initGui( ) {
   createControlGruop();
 }
 void createControlGruop( ) {
-  bStart = new GButton(this,80,130,100,35,"Ejecutar");
+  bStart = new GButton(this,70,160,100,35,"Ejecutar");
   bStart.fireAllEvents(true);//Habilitamos toda las clases dissparos
+//  bManual = new GButton(this,130,130,100,35,"Manual");
+//  bManual.fireAllEvents(true);
 
   lbTipeVehicule = new GLabel(this, 73, 5, 159, 25);
   lbTipeVehicule.setText("Control Slide Cam");
+  lbStep = new GLabel(this, 100, 55, 159, 25);
+  lbStep.setText("Steps");
+  lbRPM = new GLabel(this, 105, 95, 159, 25);
+  lbRPM.setText("RPM");
 
-  cbx=new GCheckbox(this,5,15,110,40,"Anti-Horario");
+  cbx=new GCheckbox(this,65,25,110,40,"Anti-Horario");
 
-  txfStep = new GTextField(this, 10, 60, 60, 20);
+  txfStep = new GTextField(this, 90, 80, 60, 20);
   txfStep.tag = "txfStep";
   txfStep.setPromptText("Set Steps");
-  txfRPM = new GTextField(this,130,60,60,20);
+  txfRPM = new GTextField(this,90,120,60,20);
   txfRPM.tag = "txfRPM";
   txfRPM.setPromptText("Set RMP");
 
@@ -36,11 +42,12 @@ void createControlGruop( ) {
 public void handleButtonEvents(GButton button, GEvent event) {
   if(button==bStart&&event==GEvent.PRESSED){
     println("Me presionaron!! ");
-  //  if(flag_Dir){
-  //    myPort.write("%101000%");
-    //}else myPort.write("%101000%");
-    String s = "%102"+txfStep.getText()+"%";
-    myPort.write(s);
+    //String s = "%102"+txfStep.getText()+"%";
+    String s = txfStep.getText();
+    if(s.length ()<=2)
+      myPort.write("%1020"+s+"%");
+    else
+      myPort.write("%102"+s+"%");
   }
 }
 public void handleToggleControlEvents(GToggleControl option, GEvent event) {

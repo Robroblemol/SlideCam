@@ -25,20 +25,20 @@ Serial myPort;
 public void setup() {
     
     printArray(Serial.list());
-    myPort = new Serial(this, Serial.list()[4], 9600,'N',8,1);
-    myPort.write("%102100%");
+    //myPort = new Serial(this, Serial.list()[3], 9600,'N',8,1);
+    //myPort.write("%102100%");
     initGui();
  }
 public void draw(){
   background(213, 245, 213);
-  if(myPort.available() > 0) {
-    String inByte = myPort.readString();
-    println(inByte);
-  }
+  //if(myPort.available() > 0) {
+  //  String inByte = myPort.readString();
+  //  println(inByte);
+//  }
 }
 //importamos libreria
 
-GLabel lbTipeVehicule;//objeto tipo label
+GLabel lbTipeVehicule,lbStep,lbRPM;//objeto tipo label
 GButton bStart;
 GToggleGroup togG1Options;
 GCheckbox cbx;
@@ -54,18 +54,24 @@ public void initGui( ) {
   createControlGruop();
 }
 public void createControlGruop( ) {
-  bStart = new GButton(this,80,130,100,35,"Ejecutar");
+  bStart = new GButton(this,70,160,100,35,"Ejecutar");
   bStart.fireAllEvents(true);//Habilitamos toda las clases dissparos
+//  bManual = new GButton(this,130,130,100,35,"Manual");
+//  bManual.fireAllEvents(true);
 
   lbTipeVehicule = new GLabel(this, 73, 5, 159, 25);
   lbTipeVehicule.setText("Control Slide Cam");
+  lbStep = new GLabel(this, 100, 55, 159, 25);
+  lbStep.setText("Steps");
+  lbRPM = new GLabel(this, 105, 95, 159, 25);
+  lbRPM.setText("RPM");
 
-  cbx=new GCheckbox(this,5,15,110,40,"Anti-Horario");
+  cbx=new GCheckbox(this,65,25,110,40,"Anti-Horario");
 
-  txfStep = new GTextField(this, 10, 60, 60, 20);
+  txfStep = new GTextField(this, 90, 80, 60, 20);
   txfStep.tag = "txfStep";
   txfStep.setPromptText("Set Steps");
-  txfRPM = new GTextField(this,130,60,60,20);
+  txfRPM = new GTextField(this,90,120,60,20);
   txfRPM.tag = "txfRPM";
   txfRPM.setPromptText("Set RMP");
 
@@ -74,20 +80,19 @@ public void createControlGruop( ) {
 public void handleButtonEvents(GButton button, GEvent event) {
   if(button==bStart&&event==GEvent.PRESSED){
     println("Me presionaron!! ");
-    if(flag_Dir){
-      myPort.write("%101000%");
-    }else myPort.write("%101000%");
-    String s = "%102"+txfStep.getText()+"%";
-    myPort.write(s);
+    //String s = "%102"+txfStep.getText()+"%";
+    String s = txfStep.getText();
+    if(s.length ()<=2)
+      myPort.write("%1020"+s+"%");
+    else
+      myPort.write("%102"+s+"%");
   }
 }
 public void handleToggleControlEvents(GToggleControl option, GEvent event) {
   if(option == cbx && event == GEvent.SELECTED){
-    if(flag_Dir)
-      flag_Dir = false;
-    else  flag_Dir = true;
+    myPort.write("%101000%");
     println("Me Selecionaron !! ");
-  }
+  }else if (event == GEvent.DESELECTED ) myPort.write("%101001%");
 }
 public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
   if(textcontrol == txfStep && event == GEvent.ENTERED){
